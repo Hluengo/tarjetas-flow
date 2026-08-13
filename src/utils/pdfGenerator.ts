@@ -19,12 +19,44 @@ export function getAdjustedFontSize(
   return 5;
 }
 
-export function generatePdfBlob(
+async function prepareLogoImage(
+  logoUrl: string
+): Promise<string | HTMLCanvasElement | HTMLImageElement | null> {
+  if (!logoUrl) return null;
+  if (logoUrl.startsWith('data:image/png') || logoUrl.startsWith('data:image/jpeg')) {
+    return logoUrl;
+  }
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || 300;
+        canvas.height = img.naturalHeight || 300;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/png'));
+          return;
+        }
+      } catch (e) {
+        console.warn('Canvas conversion failed for logo:', e);
+      }
+      resolve(img);
+    };
+    img.onerror = () => resolve(null);
+    img.src = logoUrl;
+  });
+}
+
+export async function generatePdfBlob(
   students: Student[],
   teachers: CourseTeacher[],
   schoolConfig: SchoolConfig,
   pageConfig: PageConfig
-): jsPDF {
+): Promise<jsPDF> {
   const {
     anchoPaginaMm,
     altoPaginaMm,
@@ -47,6 +79,10 @@ export function generatePdfBlob(
       teacherMap[t.curso.trim().toUpperCase()] = t.profesor;
     }
   });
+
+  const logoImage = schoolConfig.logoDataUrl
+    ? await prepareLogoImage(schoolConfig.logoDataUrl)
+    : null;
 
   const anchoOcupado = columnas * anchoTarjetaMm;
   const altoOcupado = filas * altoTarjetaMm;
@@ -81,7 +117,7 @@ export function generatePdfBlob(
     doc.rect(x, y, anchoTarjetaMm, altoTarjetaMm);
 
     // 2. WATERMARK LOGO
-    if (schoolConfig.logoDataUrl) {
+    if (logoImage) {
       try {
         const anchoLogo = 45;
         const altoLogo = 55;
@@ -98,7 +134,7 @@ export function generatePdfBlob(
         }
 
         doc.addImage(
-          schoolConfig.logoDataUrl,
+          logoImage,
           'PNG',
           logoX,
           logoY,
@@ -174,13 +210,13 @@ export function generatePdfBlob(
   return doc;
 }
 
-export function downloadPdf(
+export async function downloadPdf(
   students: Student[],
   teachers: CourseTeacher[],
   schoolConfig: SchoolConfig,
   pageConfig: PageConfig,
   filename = 'Tarjetas.pdf'
 ) {
-  const doc = generatePdfBlob(students, teachers, schoolConfig, pageConfig);
+  const doc = await generatePdfBlob(students, teachers, schoolConfig, pageConfig);
   doc.save(filename);
 }

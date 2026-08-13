@@ -35,9 +35,9 @@ export default function App() {
   const totalPages = Math.ceil(totalStudents / cardsPerPage) || 1;
 
   // Actions
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
     if (students.length === 0) return;
-    downloadPdf(students, teachers, schoolConfig, pageConfig, 'Tarjetas.pdf');
+    await downloadPdf(students, teachers, schoolConfig, pageConfig, 'Tarjetas.pdf');
   };
 
   const handleDownloadTemplate = () => {

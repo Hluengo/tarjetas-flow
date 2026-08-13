@@ -24,7 +24,7 @@ export const DEFAULT_SCHOOL_CONFIG: SchoolConfig = {
   nombreColegio: 'COLEGIO CARMELA ROMERO DE ESPINOSA',
   telefono: '41-2224011',
   direccion: 'Freire 114, Concepción',
-  logoDataUrl: '',
+  logoDataUrl: '/logo.svg',
   watermarkOpacity: 0.09,
 };
 
