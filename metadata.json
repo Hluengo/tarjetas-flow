@@ -1,0 +1,6 @@
+{
+  "name": "Generador de Tarjetas Escolares",
+  "description": "Generador de tarjetas de identificación escolar en PDF a partir de listas de Excel/CSV con asignación de profesores por curso y vista previa interactiva.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
