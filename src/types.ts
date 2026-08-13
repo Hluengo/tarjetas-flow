@@ -17,7 +17,7 @@ export interface SchoolConfig {
   watermarkOpacity: number; // e.g. 0.09
 }
 
-export type PaperSizeKey = 'folio' | 'carta' | 'a4' | 'custom';
+export type PaperSizeKey = 'oficio' | 'custom';
 
 export interface PageConfig {
   paperKey: PaperSizeKey;

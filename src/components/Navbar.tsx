@@ -1,6 +1,5 @@
 import React from 'react';
-import { Download, RefreshCw, Settings } from 'lucide-react';
-import { DEFAULT_VERITAS_LOGO } from '../data/defaultData';
+import { Download, RefreshCw, Settings, CreditCard } from 'lucide-react';
 
 interface NavbarProps {
   totalStudents: number;
@@ -17,19 +16,21 @@ export const Navbar: React.FC<NavbarProps> = ({
   onResetData,
   onOpenSettings,
 }) => {
-  const logoSrc = logoDataUrl || DEFAULT_VERITAS_LOGO;
-
   return (
     <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand Title with Veritas Shield Icon */}
+        {/* Brand Title */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-8 flex items-center justify-center shrink-0">
-            <img
-              src={logoSrc}
-              alt="Veritas Logo"
-              className="h-10 w-auto object-contain filter drop-shadow-xs"
-            />
+          <div className="h-10 w-10 flex items-center justify-center shrink-0 bg-indigo-50 rounded-xl border border-indigo-100">
+            {logoDataUrl ? (
+              <img
+                src={logoDataUrl}
+                alt="Logo Colegio"
+                className="h-8 w-auto object-contain filter drop-shadow-xs"
+              />
+            ) : (
+              <CreditCard className="w-5 h-5 text-indigo-600" />
+            )}
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-tight">
