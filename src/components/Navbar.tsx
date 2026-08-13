@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, RefreshCw, Settings, CreditCard } from 'lucide-react';
+import { Download, RefreshCw, Settings } from 'lucide-react';
 
 interface NavbarProps {
   totalStudents: number;
@@ -21,21 +21,24 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Title */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 flex items-center justify-center shrink-0 bg-indigo-50 rounded-xl border border-indigo-100">
-            {logoDataUrl ? (
-              <img
-                src={logoDataUrl}
-                alt="Logo Colegio"
-                className="h-8 w-auto object-contain filter drop-shadow-xs"
-              />
-            ) : (
-              <CreditCard className="w-5 h-5 text-indigo-600" />
-            )}
+          <div className="h-10 w-10 flex items-center justify-center shrink-0 bg-indigo-50/80 rounded-xl border border-indigo-100 p-1.5 shadow-2xs">
+            <img
+              src="/logo.svg"
+              alt="Logo App"
+              className="w-full h-full object-contain filter drop-shadow-xs"
+            />
           </div>
           <div>
-            <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-tight">
-              Tarjetas Escolares
-            </h1>
+            <div className="flex items-center space-x-2">
+              <img
+                src="/logo.svg"
+                alt="Logo App"
+                className="w-5 h-5 object-contain sm:hidden"
+              />
+              <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-tight">
+                Tarjetas Escolares
+              </h1>
+            </div>
             <p className="text-[11px] text-slate-500 hidden sm:block font-medium">
               Generador automático de credenciales en PDF
             </p>
